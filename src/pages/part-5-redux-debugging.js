@@ -6,26 +6,9 @@ import { bugAdded } from "src/redux/actions";
 import store from "src/redux/store";
 
 export default function Home() {
-  // store.dispatch(bugAdded("Bug 1"));
-  // store.dispatch(bugAdded("Bug 1"));
+  store.dispatch(bugAdded("Bug 1"));
+  store.dispatch(bugAdded("Bug 666"));
 
-  // console.log("This is store.getState() : ", store.getState());
-  // console.log("This is store : ", store);
-
-  const unsubscribe = store.subscribe(() => {
-    console.log("Store changed! store.getState() : ", store.getState());
-  });
-  unsubscribe();
-  store.dispatch(bugAdded("Bug 1"));
-  // unsubscribe();
-  store.dispatch(bugAdded("Bug 1"));
-  // unsubscribe();
-  store.dispatch(bugAdded("Bug 1"));
-  // unsubscribe();
-
-  store.dispatch(bugAdded("Bug 1"));
-  store.dispatch(bugAdded("Bug 1"));
-  store.dispatch(bugAdded("Bug 1"));
   return (
     <Layout>
       <BeerIcon />
