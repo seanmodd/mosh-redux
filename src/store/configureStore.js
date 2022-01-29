@@ -1,4 +1,7 @@
-import { createStore, applyMiddleware } from "redux";
+// import { createStore, applyMiddleware } from "redux";
+import { applyMiddleware } from "redux";
+
+import { configureStore } from "@reduxjs/toolkit";
 import {
   composeWithDevTools,
   devToolsEnhancer,
@@ -6,15 +9,20 @@ import {
 import logger from "redux-logger";
 import reducer from "./bugs";
 
-//! New and better way to create store with debuggers fully integrated
-export default function configureStore() {
-  const composeEnhancers = composeWithDevTools({
-    trace: true,
-  });
-
-  const store = createStore(reducer, composeEnhancers(applyMiddleware(logger)));
-  return store;
+//! New way to create store with Toolkit
+export default function () {
+  return configureStore({ reducer });
 }
+
+//! The older way to create store with debuggers fully integrated !!
+// export default function() {
+//   const composeEnhancers = composeWithDevTools({
+//     trace: true,
+//   });
+
+//   const store = createStore(reducer, composeEnhancers(applyMiddleware(logger)));
+//   return store;
+// }
 
 //!  old:
 // const store = createStore(
