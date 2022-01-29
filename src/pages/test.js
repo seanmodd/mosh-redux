@@ -5,7 +5,10 @@ import * as actions from "src/redux/actions";
 const Test = () => {
   // console.log("This is customStore.getState : ", customStore.getState());
 
-  console.log("This is customStore.getState() : ", customStore.getState());
+  customStore.subscribe(() => {
+    console.log("Store changed!");
+  });
+
   customStore.dispatch(actions.bugAdded("Bug 1"));
   console.log("This is customStore.getState() : ", customStore.getState());
 
