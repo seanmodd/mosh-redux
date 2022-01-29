@@ -3,15 +3,19 @@ import Layout from "src/components/Layout";
 import Link from "next/link";
 import BeerIcon from "src/components/BeerIcon";
 // redux
-import { bugAdded, bugResolved } from "src/store/bugs";
+import * as actions from "src/store/bugs";
 import configureStore from "src/store/configureStore";
 
 export default function Home() {
   const store = configureStore();
-  store.dispatch(bugAdded("Bug 1"));
-  store.dispatch(bugAdded("Bug 666"));
+  store.dispatch(
+    actions.bugAdded({ description: "Bug 1 description lorem ipsum" })
+  );
+  store.dispatch(
+    actions.bugAdded({ description: "Bug 6666 description lorem ipsum" })
+  );
 
-  store.dispatch(bugResolved(1));
+  store.dispatch(actions.bugResolved({ id: 8 }));
 
   return (
     <Layout>
