@@ -1,4 +1,4 @@
-import reducer from "./reducer";
+import reducer from "../reducer";
 
 // * Remember, the createStore we import from Redux always expects a reducer function
 

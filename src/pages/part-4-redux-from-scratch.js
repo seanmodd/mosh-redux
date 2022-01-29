@@ -1,5 +1,5 @@
 import React from "react";
-import customStore from "src/redux/customStore";
+import customStore from "src/redux/custom/customStore";
 import * as actions from "src/redux/actions";
 
 const Test = () => {
