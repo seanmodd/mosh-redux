@@ -7,18 +7,14 @@ export default function Home() {
   return (
     <Layout>
       <BeerIcon />
-      <Link href="/results">
-        <div className={styles.cardbutton}>View Results</div>
+      <Link href="/">
+        <div className={styles.cardbutton}>Go Home!</div>
       </Link>
       <main className={styles.grid}>
         <div className={styles.card}>
-          <form>
-            <input placeholder="Name" />
-            <textarea placeholder="description" />
-            <input placeholder="url" />
-
-            <button>Add</button>
-          </form>
+          <p className={styles.result}>Name is: </p>
+          <p className={styles.result}>Description is: </p>
+          <p className={styles.result}>URL is: </p>
         </div>
         <div className={styles.card}>
           <div
@@ -28,9 +24,7 @@ export default function Home() {
               alignItems: "center",
             }}
           >
-            <button>+ Beer</button>
-            <button>- Beer</button>
-            <button>Reset</button>
+            <p className={styles.result}>Beer Count: </p>
           </div>
         </div>
       </main>
