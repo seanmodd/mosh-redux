@@ -8,9 +8,11 @@ export default function Home() {
         <div className={styles.card}>
           <p>Redux learning is fun</p>
         </div>
+
         <div className={styles.card}>
           <p>Redux learning is easy</p>
         </div>
+
         <div className={styles.card}>
           <p>Redux learning is easy</p>
         </div>
