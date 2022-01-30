@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
+import { apiCallBegan } from "./api";
 
 let lastId = 0;
 
@@ -15,6 +16,11 @@ const slice = createSlice({
   },
   reducers: {
     // this is an object that maps actions => action handlers
+    bugsReceived: (state, action) => {
+      state.list = action.payload;
+      state.loading = false;
+      state.lastFetch = Date.now();
+    },
     // state param below is the current bug slice state
     // bug slice state is an object with three properties: list, loading, lastFetch
     bugAssignedToUser: (state, action) => {
@@ -35,13 +41,6 @@ const slice = createSlice({
       const index = state.list.findIndex((bug) => bug.id === action.payload);
       state.list[index].resolved = true;
     },
-    // bugResolved: (state, action) => {
-    //   state.forEach((bug) => {
-    //     if (bug.id === action.payload.id) {
-    //       bug.resolved = true;
-    //     }
-    //   });
-    // },
     bugRemoved: (state, action) => {
       const index = state.findIndex((bug) => bug.id === action.payload.id);
       state.splice(index, 1);
@@ -51,16 +50,31 @@ const slice = createSlice({
 console.log("These are the slices: ", slice);
 
 //! Below is actions.js
-//* These are the action creators
-export const { bugAdded, bugResolved, bugRemoved, bugAssignedToUser } =
-  slice.actions;
+//* These are the reducers which are also action creators
+export const {
+  bugAdded,
+  bugResolved,
+  bugRemoved,
+  bugAssignedToUser,
+  bugsReceived,
+} = slice.actions;
 
 export default slice.reducer;
 
-//! Below is the selector function that we will use to get the unresolved bugs
-// export const unresolvedBugsSelector = (state) => {
-//   return state.entities.bugs.filter((bug) => !bug.resolved);
-// };
+//! Action Creators
+const url = "/bugs";
+export const loadBugs = () =>
+  apiCallBegan(
+    //! Below is our Payload Object
+    {
+      url,
+      // onSuccess: bugsReceived.type,
+      onSuccess: "bugs/bugsReceived",
+      // onSuccess: slice.actions.bugsReceived.type,
+      // onSuccess: actions.apiCallSuccess.type,
+      // onError: actions.apiCallFailed.type,
+    }
+  );
 
 //! Below we use Memoization to create a selector function that will only be called if the unresolved bugs have changed
 export const unresolvedBugsSelector = createSelector(

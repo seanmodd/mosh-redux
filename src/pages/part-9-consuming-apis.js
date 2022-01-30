@@ -1,17 +1,15 @@
 import Layout from "src/components/Layout";
 import configureStore from "src/store/configureStore";
 import * as actions from "src/store/api";
+import { loadBugs } from "src/store/bugs";
 
 export default function Home() {
   const store = configureStore();
-  store.dispatch(
-    actions.apiCallBegan({
-      url: "/bugs",
-      onSuccess: "bugsReceived",
-      // onSuccess: actions.apiCallSuccess.type,
-      // onError: actions.apiCallFailed.type,
-    })
-  );
+
+  // UI Layer
+  store.dispatch(loadBugs());
+
+  // store.dispatch(actions.apiCallBegan());
 
   return <Layout />;
 }
