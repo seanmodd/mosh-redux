@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
+import moment from "moment";
 import { apiCallBegan } from "./api";
 
 let lastId = 0;
@@ -80,18 +81,30 @@ export default slice.reducer;
 
 //! Action Creators
 const url = "/bugs";
-export const loadBugs = () =>
-  apiCallBegan(
-    //! Below is our Payload Object
-    {
-      url,
-      // each one of these are actions that dispatch from our middleware
-      onStart: bugsRequested.type,
-      onSuccess: bugsReceived.type,
-      onError: bugsRequestFailed.type,
-    }
-  );
+//! Below is a loadBugs action creator which is calling the apiCallBegan action creator
+export const loadBugs = () => (dispatch, getState) => {
+  const { lastFetch } = getState().entities.bugs;
+  const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
+  if (diffInMinutes < 10) return;
+  //! apiCallBegan is an action creator which returns the action object
+  //! In order to start our workflow we need to explicitly dispatch the action
+  console.log("This is the lastFetch constant: ", lastFetch);
 
+  dispatch(
+    apiCallBegan(
+      //! Below is our Payload Object
+      {
+        url,
+        // each one of these are actions that dispatch from our middleware
+        onStart: bugsRequested.type,
+        onSuccess: bugsReceived.type,
+        onError: bugsRequestFailed.type,
+      }
+    )
+  );
+};
+
+//! Below are the Selectors
 //! Below we use Memoization to create a selector function that will only be called if the unresolved bugs have changed
 export const unresolvedBugsSelector = createSelector(
   (state) => state.entities.bugs,

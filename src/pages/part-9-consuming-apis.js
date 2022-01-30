@@ -7,9 +7,11 @@ export default function Home() {
   const store = configureStore();
 
   // UI Layer
+  // below does the exact same as: store.dispatch(actions.apiCallBegan());
+  // but we don't want to expose the store to the UI layer
   store.dispatch(loadBugs());
 
-  // store.dispatch(actions.apiCallBegan());
+  setTimeout(() => store.dispatch(loadBugs()), 3000);
 
   return <Layout />;
 }
