@@ -8,6 +8,11 @@ const slice = createSlice({
   initialState: [],
   reducers: {
     // this is an object that maps actions => action handlers
+    bugAssignedToUser: (state, action) => {
+      const { bugId, userId } = action.payload;
+      const index = state.findIndex((bug) => bug.id === bugId);
+      state[index] == undefined ? null : (state[index].userId = userId);
+    },
     bugAdded: (state, action) => {
       state.push({
         id: ++lastId,
@@ -32,7 +37,8 @@ console.log("These are the slices: ", slice);
 
 //! Below is actions.js
 //* These are the action creators
-export const { bugAdded, bugResolved, bugRemoved } = slice.actions;
+export const { bugAdded, bugResolved, bugRemoved, bugAssignedToUser } =
+  slice.actions;
 
 export default slice.reducer;
 
@@ -47,3 +53,10 @@ export const unresolvedBugsSelector = createSelector(
   (state) => state.entities.projects,
   (bugs, projects) => bugs.filter((bug) => !bug.resolved)
 );
+
+//! Below we will create a Selector to get bugs by user
+export const bugsByUserSelector = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.filter((bug) => bug.userId === userId)
+  );
