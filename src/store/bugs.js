@@ -35,7 +35,7 @@ const slice = createSlice({
     // bug slice state is an object with three properties: list, loading, lastFetch
     // below is the action handler for the action "bugAssignedToUser":
     bugAssignedToUser: (state, action) => {
-      const { bugId, userId } = action.payload;
+      const { id: bugId, userId } = action.payload;
       const index = state.list.findIndex((bug) => bug.id === bugId);
       state.list[index] == undefined
         ? null
@@ -117,6 +117,14 @@ export const resolveBug = (id) =>
     method: "patch",
     data: { resolved: true },
     onSuccess: bugResolved.type,
+  });
+//! Below is a new Action Creator for calling the API to save a bug to a user on the server
+export const assignBugToUser = (bugId, userId) =>
+  apiCallBegan({
+    url: `${url}/${bugId}`,
+    method: "patch",
+    data: { userId },
+    onSuccess: bugAssignedToUser.type,
   });
 
 //! Below are the Selectors
