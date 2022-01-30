@@ -5,9 +5,13 @@ import BeerIcon from "src/components/BeerIcon";
 // redux
 import * as actions from "src/store/bugs";
 import configureStore from "src/store/configureStore";
+import { projectAdded } from "src/store/projects";
 
 export default function Home() {
   const store = configureStore();
+  store.dispatch(
+    projectAdded({ name: "Project 1", description: "This is project 1" })
+  );
   store.dispatch(
     actions.bugAdded({ description: "Bug 1 description lorem ipsum" })
   );
