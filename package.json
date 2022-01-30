@@ -6,6 +6,10 @@
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.7.1",
+    "axios": "^0.25.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "iconify": "^1.4.0",
     "next": "12.0.2",
     "react": "17.0.2",
