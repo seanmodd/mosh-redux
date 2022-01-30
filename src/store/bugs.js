@@ -5,28 +5,43 @@ let lastId = 0;
 
 const slice = createSlice({
   name: "bugs",
-  initialState: [],
+  // below is the initial state for the bug slice
+  initialState: {
+    list: [],
+    // loading is useful for displaying a loading spinner
+    loading: false,
+    // lastFetch is useful for caching
+    lastFetch: null,
+  },
   reducers: {
     // this is an object that maps actions => action handlers
+    // state param below is the current bug slice state
+    // bug slice state is an object with three properties: list, loading, lastFetch
     bugAssignedToUser: (state, action) => {
       const { bugId, userId } = action.payload;
-      const index = state.findIndex((bug) => bug.id === bugId);
-      state[index] == undefined ? null : (state[index].userId = userId);
+      const index = state.list.findIndex((bug) => bug.id === bugId);
+      state.list[index] == undefined
+        ? null
+        : (state.list[index].userId = userId);
     },
     bugAdded: (state, action) => {
-      state.push({
+      state.list.push({
         id: ++lastId,
         description: action.payload.description,
         resolved: false,
       });
     },
     bugResolved: (state, action) => {
-      state.forEach((bug) => {
-        if (bug.id === action.payload.id) {
-          bug.resolved = true;
-        }
-      });
+      const index = state.list.findIndex((bug) => bug.id === action.payload);
+      state.list[index].resolved = true;
     },
+    // bugResolved: (state, action) => {
+    //   state.forEach((bug) => {
+    //     if (bug.id === action.payload.id) {
+    //       bug.resolved = true;
+    //     }
+    //   });
+    // },
     bugRemoved: (state, action) => {
       const index = state.findIndex((bug) => bug.id === action.payload.id);
       state.splice(index, 1);
