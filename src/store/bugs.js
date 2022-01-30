@@ -3,8 +3,6 @@ import { createSelector } from "reselect";
 import moment from "moment";
 import { apiCallBegan } from "./api";
 
-let lastId = 0;
-
 const slice = createSlice({
   name: "bugs",
   // below is the initial state for the bug slice
@@ -45,11 +43,7 @@ const slice = createSlice({
     },
     // below is the action handler for the action "bugAdded":
     bugAdded: (state, action) => {
-      state.list.push({
-        id: ++lastId,
-        description: action.payload.description,
-        resolved: false,
-      });
+      state.list.push(action.payload);
     },
     // below is the action handler for the action "bugResolved":
     bugResolved: (state, action) => {
@@ -103,6 +97,15 @@ export const loadBugs = () => (dispatch, getState) => {
     )
   );
 };
+
+//! Below is a new Action Creator for calling the API
+export const addBug = (bug) =>
+  apiCallBegan({
+    url,
+    method: "post",
+    data: bug,
+    onSuccess: bugAdded.type,
+  });
 
 //! Below are the Selectors
 //! Below we use Memoization to create a selector function that will only be called if the unresolved bugs have changed

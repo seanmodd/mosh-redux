@@ -1,0 +1,3 @@
+Make an API call.
+Promise resolved => dispatch(success)
+Promise reject => dispatch(error)

@@ -1,3 +1,0 @@
-action: bugsRequested
-reducer: loading = true
-middleware: dispatch new action
