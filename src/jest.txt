@@ -1,0 +1,6 @@
+NOTE: 
+You MUST run:
+ `
+ ./node_modules/.bin/jest
+ `
+Within the terminal to run Jest, probably because I need to update yarn!
