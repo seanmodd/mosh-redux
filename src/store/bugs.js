@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 
 let lastId = 0;
 
@@ -34,3 +35,15 @@ console.log("These are the slices: ", slice);
 export const { bugAdded, bugResolved, bugRemoved } = slice.actions;
 
 export default slice.reducer;
+
+//! Below is the selector function that we will use to get the unresolved bugs
+// export const unresolvedBugsSelector = (state) => {
+//   return state.entities.bugs.filter((bug) => !bug.resolved);
+// };
+
+//! Below we use Memoization to create a selector function that will only be called if the unresolved bugs have changed
+export const unresolvedBugsSelector = createSelector(
+  (state) => state.entities.bugs,
+  (state) => state.entities.projects,
+  (bugs, projects) => bugs.filter((bug) => !bug.resolved)
+);

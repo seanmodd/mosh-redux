@@ -3,32 +3,26 @@ import Layout from "src/components/Layout";
 import Link from "next/link";
 import BeerIcon from "src/components/BeerIcon";
 // redux
-import * as actions from "src/store/bugs";
+import {
+  bugAdded,
+  bugRemoved,
+  bugResolved,
+  unresolvedBugsSelector,
+} from "src/store/bugs";
 import configureStore from "src/store/configureStore";
 import { projectAdded } from "src/store/projects";
 
 export default function Home() {
   const store = configureStore();
-  store.dispatch(
-    projectAdded({ name: "Project 1", description: "This is project 1" })
-  );
-  store.dispatch(
-    actions.bugAdded({ description: "Bug 1 description lorem ipsum" })
-  );
-  store.dispatch(
-    actions.bugAdded({ description: "Bug 6666 description lorem ipsum" })
-  );
-  store.dispatch(
-    actions.bugAdded({ description: "Bug 6666 description lorem ipsum" })
-  );
-  store.dispatch(
-    actions.bugAdded({
-      description: "Bug 1212342345435 description lorem ipsum",
-    })
-  );
+  store.dispatch(projectAdded({ name: "Project 1", description: "Lorem etc" }));
+  store.dispatch(bugAdded({ description: "Bug 1 description lorem ipsum" }));
+  store.dispatch(bugRemoved({ description: "Bug REMOVED" }));
+  store.dispatch(bugAdded({ description: "Bug 6666 description lorem ipsum" }));
+  store.dispatch(bugAdded({ description: "Bug  1212343245" }));
+  store.dispatch(bugResolved({ id: 3 }));
 
-  store.dispatch(actions.bugResolved({ id: 8 }));
-
+  const unresolvedBugs = unresolvedBugsSelector(store.getState());
+  console.log("This is unresolvedBugs we made: ", unresolvedBugs);
   return (
     <Layout>
       <BeerIcon />
