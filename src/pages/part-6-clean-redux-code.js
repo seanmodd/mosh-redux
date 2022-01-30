@@ -14,6 +14,14 @@ export default function Home() {
   store.dispatch(
     actions.bugAdded({ description: "Bug 6666 description lorem ipsum" })
   );
+  store.dispatch(
+    actions.bugAdded({ description: "Bug 6666 description lorem ipsum" })
+  );
+  store.dispatch(
+    actions.bugAdded({
+      description: "Bug 1212342345435 description lorem ipsum",
+    })
+  );
 
   store.dispatch(actions.bugResolved({ id: 8 }));
 

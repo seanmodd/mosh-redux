@@ -1,18 +1,12 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
-
-//! Below is actions.js
-//* These are the action creators
-export const bugAdded = createAction("bugAdded");
-export const bugResolved = createAction("bugResolved");
-export const bugRemoved = createAction("bugRemoved");
-//! Below is reducer.js
+import { createSlice } from "@reduxjs/toolkit";
 
 let lastId = 0;
-//* This is the reducer function
-export default function () {
-  createReducer([], {
-    // key: value
-    // actions: functions (event => event handler)
+
+const slice = createSlice({
+  name: "bugs",
+  initialState: [],
+  reducers: {
+    // this is an object that maps actions => action handlers
     bugAdded: (state, action) => {
       state.push({
         id: ++lastId,
@@ -21,12 +15,22 @@ export default function () {
       });
     },
     bugResolved: (state, action) => {
-      const index = state.findIndex((bug) => bug.id === action.payload.id);
-      state[index].resolved = true;
+      state.forEach((bug) => {
+        if (bug.id === action.payload.id) {
+          bug.resolved = true;
+        }
+      });
     },
     bugRemoved: (state, action) => {
       const index = state.findIndex((bug) => bug.id === action.payload.id);
       state.splice(index, 1);
     },
-  });
-}
+  },
+});
+console.log("These are the slices: ", slice);
+
+//! Below is actions.js
+//* These are the action creators
+export const { bugAdded, bugResolved, bugRemoved } = slice.actions;
+
+export default slice.reducer;
