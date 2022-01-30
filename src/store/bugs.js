@@ -63,7 +63,7 @@ console.log("These are the slices: ", slice);
 
 //! Below is actions.js
 //* These are the reducers which are also action creators
-export const {
+const {
   bugAdded,
   bugResolved,
   bugRemoved,
