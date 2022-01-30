@@ -48,7 +48,9 @@ const slice = createSlice({
     // below is the action handler for the action "bugResolved":
     bugResolved: (state, action) => {
       const index = state.list.findIndex((bug) => bug.id === action.payload);
-      state.list[index].resolved = true;
+      state.list[index] == undefined
+        ? null
+        : (state.list[index].resolved = true);
     },
     // below is the action handler for the action "bugRemoved":
     bugRemoved: (state, action) => {
@@ -98,13 +100,23 @@ export const loadBugs = () => (dispatch, getState) => {
   );
 };
 
-//! Below is a new Action Creator for calling the API
+//! Below is a new Action Creator for calling the API to save it to the server
 export const addBug = (bug) =>
   apiCallBegan({
     url,
     method: "post",
     data: bug,
     onSuccess: bugAdded.type,
+  });
+
+//! Below is a new Action Creator for calling the API to save the resolved status to the server
+export const resolveBug = (id) =>
+  apiCallBegan({
+    // Patch is a HTTP method that is used to update one item
+    url: `${url}/${id}`,
+    method: "patch",
+    data: { resolved: true },
+    onSuccess: bugResolved.type,
   });
 
 //! Below are the Selectors
