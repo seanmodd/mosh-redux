@@ -1,3 +1,0 @@
-Save the data when:
-  - Assigning a bug to a user
-  - Resolving a bug
