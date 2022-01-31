@@ -1,14 +1,14 @@
 import React from "react";
 import "@/styles/globals.css";
-import StoreContext from "src/contexts/storeContext";
 import configureStore from "src/store/configureStore";
+import { Provider } from "react-redux";
 
 function MyApp({ Component, pageProps }) {
   const store = configureStore();
   return (
-    <StoreContext.Provider value={store}>
+    <Provider store={store}>
       <Component {...pageProps} />
-    </StoreContext.Provider>
+    </Provider>
   );
 }
 

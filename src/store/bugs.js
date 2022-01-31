@@ -132,12 +132,12 @@ export const assignBugToUser = (bugId, userId) =>
 export const unresolvedBugsSelector = createSelector(
   (state) => state.entities.bugs,
   (state) => state.entities.projects,
-  (bugs, projects) => bugs.filter((bug) => !bug.resolved)
+  (bugs, projects) => bugs.list.filter((bug) => !bug.resolved)
 );
 
 //! Below we will create a Selector to get bugs by user
 export const bugsByUserSelector = (userId) =>
   createSelector(
     (state) => state.entities.bugs,
-    (bugs) => bugs.filter((bug) => bug.userId === userId)
+    (bugs) => bugs.list.filter((bug) => bug.userId === userId)
   );
