@@ -54,8 +54,13 @@ const slice = createSlice({
     },
     // below is the action handler for the action "bugRemoved":
     bugRemoved: (state, action) => {
-      const index = state.findIndex((bug) => bug.id === action.payload.id);
-      state.splice(index, 1);
+      // const index = state.findIndex((bug) => bug.id === action.payload.id);
+      // state.splice(index, 1);
+
+      // const index = state.list.findIndex((bug) => bug.id === action.payload.id);
+      // state.list.splice(index, 1);
+
+      state.list = state.list?.filter((bug) => bug.id !== action.payload.id);
     },
   },
 });
@@ -127,12 +132,20 @@ export const assignBugToUser = (bugId, userId) =>
     onSuccess: bugAssignedToUser.type,
   });
 
+//! Below is a new Action Creator to delete a bug
+export const deleteBug = (bugId) =>
+  apiCallBegan({
+    url: `${url}/${bugId}`,
+    method: "delete",
+    onSuccess: bugRemoved.type,
+  });
+
 //! Below are the Selectors
 //! Below we use Memoization to create a selector function that will only be called if the unresolved bugs have changed
 export const unresolvedBugsSelector = createSelector(
   (state) => state.entities.bugs,
   (state) => state.entities.projects,
-  (bugs, projects) => bugs.list.filter((bug) => !bug.resolved)
+  (bugs, projects) => bugs.list.filter((bug) => bug.resolved)
 );
 
 //! Below we will create a Selector to get bugs by user

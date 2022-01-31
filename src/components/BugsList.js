@@ -4,6 +4,9 @@ import {
   loadBugs,
   unresolvedBugsSelector,
   bugsByUserSelector,
+  resolveBug,
+  addBug,
+  deleteBug,
 } from "../store/bugs";
 
 const BugsList = () => {
@@ -18,8 +21,15 @@ const BugsList = () => {
 
   return (
     <>
+      <button onClick={() => dispatch(loadBugs())}>Load Again</button>
+      <button onClick={() => dispatch(addBug("new bug"))}>Add Bug</button>
       {bugs.map((bug) => (
-        <li key={bug.id}>{bug.description}</li>
+        <li key={bug.id}>
+          {bug.id}. {bug.description}
+          {bug.resolved ? " (resolved)" : "not resolved"}
+          <button onClick={() => dispatch(resolveBug(bug.id))}>Resolve</button>
+          <button onClick={() => dispatch(deleteBug(bug.id))}>Delete</button>
+        </li>
       ))}
       <div>here</div>
     </>
